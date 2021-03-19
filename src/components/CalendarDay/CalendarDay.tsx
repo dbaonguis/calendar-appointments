@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Avatar from '@material-ui/core/Avatar';
+import { Avatar, Button, Grid, Paper, Card, ButtonBase, CardActionArea, CardContent } from '@material-ui/core';
 import deepPurple from '@material-ui/core/colors/deepPurple';
 import { WithStyles, withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { isSameMonth, isSameDay, getDate } from 'date-fns';
-
+import Reminder from './../Reminder/Reminder';
 
 const styles = (theme: Theme) => createStyles({
 	dayCell: {
@@ -81,6 +81,7 @@ const CalendarDay = (props: Props) => {
 	const onMouseOver = () => setFocused(true)
 	const onMouseOut = () => setFocused(false)
 
+
 	return (
 		<div
 			onMouseOver={ onMouseOver }
@@ -92,10 +93,17 @@ const CalendarDay = (props: Props) => {
 					: classes.dayCellOutsideMonth
 			}
 		>
-			<Avatar className={ avatarClass }>{ getDate( dateObj.date ) }</Avatar>
-			<div className={ classes.remindersContainer }>
-				{/* reminders go here */}
-			</div>
+			<Grid container spacing={8}>
+				<Grid item xs={4} sm={4} md={3} lg={2} xl={2}>
+					<Avatar className={ avatarClass }>{ getDate( dateObj.date ) }</Avatar>
+				</Grid>
+				<Grid item xs={8} sm={8} md={9} lg={10} xl={10}>
+					<div className={ classes.remindersContainer }>
+						{/* reminders go here */}
+						<Reminder date={new Date()} time="12:15pm" />
+					</div>
+				</Grid>
+			</Grid>
 		</div>
 	)
 }
