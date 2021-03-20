@@ -71,25 +71,29 @@ const Reminder = (props: Props) => {
       id: uuidv4(),
       date: dateFormat(new Date('1/2/2000'), 'yyyy-MM-dd'),
       time: '2:00pm',
-      text: 'Reminder #1'
+      message: 'Reminder #1',
+      color: '#FFFFFF',
     },
     {
       id: uuidv4(),
       date: dateFormat(new Date(), 'yyyy-MM-dd'),
       time: '2:00pm',
-      text: 'Reminder #2'
+      message: 'Reminder #2',
+      color: '#FFF000',
     },
     {
       id: uuidv4(),
       date: dateFormat(new Date(), 'yyyy-MM-dd'),
       time: '2:00pm',
-      text: 'Reminder #3'
+      message: 'Reminder #3',
+      color: '#F3F4FG',
     },
     {
       id: uuidv4(),
       date: dateFormat(new Date(), 'yyyy-MM-dd'),
       time: '2:00pm',
-      text: 'Reminder #4'
+      message: 'Reminder #4',
+      color: '#FFF000',
     },
   ];
 
@@ -122,7 +126,7 @@ const Reminder = (props: Props) => {
             
               alert('hoy tarantado!');
             }}>
-              {reminder.text}
+              {reminder.message}
             </CardActionArea>
           </Card>
         </Grid>
