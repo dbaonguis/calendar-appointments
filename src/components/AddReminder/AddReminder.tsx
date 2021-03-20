@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import Dialog from '@material-ui/core/Dialog';
+import Button from '@material-ui/core/Button';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
@@ -9,6 +10,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import DateFnsUtils from '@date-io/date-fns';
+import { v4 as uuidv4 } from 'uuid';
 import { addMinutes, format as dateFormat } from 'date-fns';
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
 import { WithStyles, withStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -34,25 +36,35 @@ const styles = (theme: Theme) => createStyles({
 
 interface Props extends WithStyles<typeof styles>{
 	isOpen: boolean,
-	onClose: () => void
+	onClose: () => void,
+	onCreateReminderRequest: () => void,
+	onCreateReminderSuccess: (reminder: any) => void,
 }
 
 const AddReminder = (props: Props) => {
-	const { classes, isOpen, onClose } = props;
-
-	// const dateFns = new DateFnsUtils();
+	const { classes, isOpen, onClose, onCreateReminderRequest, onCreateReminderSuccess } = props;
 
 	const [message, setMessage] = useState<string>('');
 	const [dateTime, setDateTime] = useState<Date>(new Date());
-	// const [dateTime, setDateTime] = useState<Date>(dateFns.setMinutes(new Date(), 0));
-		
+
+	const onSaveHandler = () => {
+		onCreateReminderRequest();
+		onCreateReminderSuccess({
+			id: uuidv4(),
+			dateTime,
+      message,
+      color: '#FFFFFF',
+		});
+		onClose();
+	}
+
 	return (
 		<Dialog
 			open={ isOpen }
 			onClose={onClose}
 			aria-labelledby='form-dialog-title'
 			fullWidth={ true }
-			maxWidth='md'
+			maxWidth='sm'
 		>
 			<DialogTitle id='form-dialog-title'>
 				Add Reminder
@@ -114,6 +126,7 @@ const AddReminder = (props: Props) => {
          		/>
        		</Grid>
 				</MuiPickersUtilsProvider>
+				<Button onClick={onSaveHandler}>Save</Button>
 			</DialogContent>
 		</Dialog>
 	);

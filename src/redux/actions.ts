@@ -41,14 +41,13 @@ export function closeAddReminder() {
 	return { type: CLOSE_ADD_REMINDER };
 }
 
-export function createReminder() {
-	return (dispatch: any, getState: any) => {
-		dispatch({
-			type: CREATE_REMINDER_REQUEST
-		});
+export function createReminderRequest() {
+	return { type: CREATE_REMINDER_REQUEST };
+}
 
-		dispatch({
-			type: CREATE_REMINDER_SUCCESS
-		})
-	} 
+export function createReminderSuccess(reminder: any) {
+	return { 
+		type: CREATE_REMINDER_SUCCESS,
+		payload: reminder
+	};
 }
