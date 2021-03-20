@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
@@ -36,18 +37,26 @@ const styles = (theme: Theme) => createStyles({
 	colorTextField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-		width: '150px'
+		width: '140px'
   },
 	dateTextField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-		width: '180px'
+		width: '160px'
   },
 	timeTextField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-		width: '150px'
+		width: '120px'
   },
+	paperColorDisplay: {
+		marginTop: '7px',
+		height: '53px',
+		width: '70px',
+		display: 'flex',
+		justifyContent: 'center',
+  	alignItems: 'center',
+	}
 });
 
 interface Props extends WithStyles<typeof styles>{
@@ -62,7 +71,7 @@ const AddReminder = (props: Props) => {
 
 	const [message, setMessage] = useState<string>('');
 	const [dateTime, setDateTime] = useState<Date>(new Date());
-	// const [textColor, setTextColor] = useState<string>('#000000');
+	const [isColorPicker, setColorPicker] = useState<boolean>(false);
 	const [bgColor, setBgColor] = useState<string>('#FFFFFF');
 
 	const onSaveHandler = () => {
@@ -94,9 +103,11 @@ const AddReminder = (props: Props) => {
 			</DialogTitle>
 			<Divider light />
 			<DialogContent className={ classes.addReminderFormContainer }>
+				{/*
 				<Typography>
 					{dateFormat(dateTime, 'yyyy-MM-dd HH:MM:SS')}
 				</Typography>
+				*/}
 				<TextField
          	id='message'
          	label='Message'
@@ -112,14 +123,31 @@ const AddReminder = (props: Props) => {
        	/>
 				<Grid container justify='space-between'>
 					<Grid item>
-						<TextField
-							label="Background Color"
-							className={classes.colorTextField}
-							value={'test'}
-							onChange={() => {}}
-							margin="normal"
-							variant="filled"
-						/>
+						<Grid container alignItems='center' spacing={0}>
+							<Grid item>
+								<TextField
+									label="Background Color"
+									className={classes.colorTextField}
+									value={bgColor}
+									onChange={() => {}}
+									margin="normal"
+									variant="filled"
+									onFocus={() => {
+										setColorPicker(true);
+									}}
+									onBlur={() => {
+										setColorPicker(false);
+									}}
+								/>		
+							</Grid>
+							<Grid item>
+								<Typography>
+									<Paper className={classes.paperColorDisplay}>
+										Sample
+									</Paper>
+								</Typography>
+							</Grid>
+						</Grid>
 					</Grid>
 					<MuiPickersUtilsProvider utils={DateFnsUtils}>
 						<Grid item>
@@ -162,7 +190,7 @@ const AddReminder = (props: Props) => {
 						</Grid>
 					</MuiPickersUtilsProvider>
        	</Grid>
-				<GithubPicker />
+				{isColorPicker && <GithubPicker  />}
 				<Button onClick={onSaveHandler}>Save</Button>
 			</DialogContent>
 		</Dialog>
