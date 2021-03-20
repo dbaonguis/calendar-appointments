@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
@@ -15,11 +15,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { addMinutes, format as dateFormat } from 'date-fns';
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
 import { WithStyles, withStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { TwitterPicker, GithubPicker } from 'react-color';
+import { GithubPicker } from 'react-color';
+import { contrastColors, Color } from './../../utils/colors';
 
 const styles = (theme: Theme) => createStyles({
 	addReminderFormContainer: {
-		minHeight: '250px',
+		minHeight: '320px',
+		height: '320px',
 		marginTop: '10px',
 		display: 'flex',
 		flexDirection: 'column'
@@ -56,6 +58,12 @@ const styles = (theme: Theme) => createStyles({
 		display: 'flex',
 		justifyContent: 'center',
   	alignItems: 'center',
+		backgroundColor: 'red',
+		color: 'white'
+	},
+	saveButton: {
+		margin: theme.spacing.unit,
+		marginTop: 'auto'
 	}
 });
 
@@ -73,6 +81,13 @@ const AddReminder = (props: Props) => {
 	const [dateTime, setDateTime] = useState<Date>(new Date());
 	const [isColorPicker, setColorPicker] = useState<boolean>(false);
 	const [bgColor, setBgColor] = useState<string>('#FFFFFF');
+	const [textColor, setTextColor] = useState<string>('#000000');
+
+	useEffect(() => {
+		if (isOpen) {
+			resetForm();
+		}
+	}, [isOpen]);
 
 	const onSaveHandler = () => {
 		onCreateReminderRequest();
@@ -82,9 +97,34 @@ const AddReminder = (props: Props) => {
 			time: dateFormat(dateTime, 'hh:mmb'),
 			dateTime,
       message,
-      color: '#FFFFFF',
+      color: {
+				background: bgColor,
+				text: textColor
+			}
 		});
 		onClose();
+	}
+
+	const onColorChangeCompleteHandler = (color, evt) => {
+		const selectedColor = String(color.hex).toUpperCase();
+		const contrastedColor: Color = contrastColors(selectedColor);
+		setBgColor(contrastedColor.background);
+		setTextColor(contrastedColor.text);
+		setColorPicker(false);
+	}
+
+	const hideColorPicker = () => {
+		if (isColorPicker) {
+			setColorPicker(false);
+		}
+	}
+
+	const resetForm = () => {
+		setMessage('');
+		setDateTime(new Date());
+		setColorPicker(false);
+		setBgColor('#FFFFFF');
+		setTextColor('#000000');
 	}
 
 	return (
@@ -120,6 +160,10 @@ const AddReminder = (props: Props) => {
 					onChange={(evt) => {
 						setMessage(evt.target.value);
 					}}
+					onFocus={() => {
+						hideColorPicker();
+					}}
+					inputProps={{ maxLength: 30 }}
        	/>
 				<Grid container justify='space-between'>
 					<Grid item>
@@ -135,14 +179,11 @@ const AddReminder = (props: Props) => {
 									onFocus={() => {
 										setColorPicker(true);
 									}}
-									onBlur={() => {
-										setColorPicker(false);
-									}}
-								/>		
+								/>
 							</Grid>
 							<Grid item>
 								<Typography>
-									<Paper className={classes.paperColorDisplay}>
+									<Paper className={classes.paperColorDisplay} style={{backgroundColor: bgColor, color: textColor}}>
 										Sample
 									</Paper>
 								</Typography>
@@ -160,6 +201,9 @@ const AddReminder = (props: Props) => {
 								}}
 								variant='filled'
 								className={classes.dateTextField}
+								onFocus={() => {
+									hideColorPicker();
+								}}
 							/>
 						</Grid>
 						<Grid item>
@@ -186,12 +230,17 @@ const AddReminder = (props: Props) => {
 									// reset the time
 									setDateTime(new Date());
 								}}
+								onFocus={() => {
+									hideColorPicker();
+								}}
 							/>
 						</Grid>
 					</MuiPickersUtilsProvider>
        	</Grid>
-				{isColorPicker && <GithubPicker  />}
-				<Button onClick={onSaveHandler}>Save</Button>
+				{isColorPicker && <GithubPicker onChangeComplete={onColorChangeCompleteHandler} /> }
+				<Button variant='contained' color='primary' className={classes.saveButton} onClick={onSaveHandler} onFocus={() => {
+					hideColorPicker();
+				}}>Save</Button>
 			</DialogContent>
 		</Dialog>
 	);
