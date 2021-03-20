@@ -64,6 +64,11 @@ const styles = (theme: Theme) => createStyles({
 	saveButton: {
 		margin: theme.spacing.unit,
 		marginTop: 'auto'
+	},
+	errorMessage: {
+		marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+		color: 'red'
 	}
 });
 
@@ -82,6 +87,7 @@ const AddReminder = (props: Props) => {
 	const [isColorPicker, setColorPicker] = useState<boolean>(false);
 	const [bgColor, setBgColor] = useState<string>('#FFFFFF');
 	const [textColor, setTextColor] = useState<string>('#000000');
+	const [errorMessage, setErrorMessage] = useState<string|null>(null);
 
 	useEffect(() => {
 		if (isOpen) {
@@ -90,6 +96,12 @@ const AddReminder = (props: Props) => {
 	}, [isOpen]);
 
 	const onSaveHandler = () => {
+		// validation
+		if (!message.trim()) {
+			setErrorMessage('Message is a required field.')
+			return;
+		}
+
 		onCreateReminderRequest();
 		onCreateReminderSuccess({
 			id: uuidv4(),
@@ -125,6 +137,7 @@ const AddReminder = (props: Props) => {
 		setColorPicker(false);
 		setBgColor('#FFFFFF');
 		setTextColor('#000000');
+		setErrorMessage(null);
 	}
 
 	return (
@@ -143,11 +156,6 @@ const AddReminder = (props: Props) => {
 			</DialogTitle>
 			<Divider light />
 			<DialogContent className={ classes.addReminderFormContainer }>
-				{/*
-				<Typography>
-					{dateFormat(dateTime, 'yyyy-MM-dd HH:MM:SS')}
-				</Typography>
-				*/}
 				<TextField
          	id='message'
          	label='Message'
@@ -158,6 +166,9 @@ const AddReminder = (props: Props) => {
 					variant='filled'
 					value={message}
 					onChange={(evt) => {
+						if (evt.target.value.trim().length > 0) {
+							setErrorMessage(null);
+						}
 						setMessage(evt.target.value);
 					}}
 					onFocus={() => {
@@ -165,6 +176,7 @@ const AddReminder = (props: Props) => {
 					}}
 					inputProps={{ maxLength: 30 }}
        	/>
+				{errorMessage && <Typography className={classes.errorMessage}>{errorMessage}</Typography>}
 				<Grid container justify='space-between'>
 					<Grid item>
 						<Grid container alignItems='center' spacing={0}>
@@ -173,10 +185,10 @@ const AddReminder = (props: Props) => {
 									label="Background Color"
 									className={classes.colorTextField}
 									value={bgColor}
-									onChange={() => {}}
 									margin="normal"
 									variant="filled"
 									onFocus={() => {
+										setErrorMessage(null);
 										setColorPicker(true);
 									}}
 								/>
