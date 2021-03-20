@@ -196,7 +196,7 @@ const AddReminder = (props: Props) => {
 							<Grid item>
 								<Typography>
 									<Paper className={classes.paperColorDisplay} style={{backgroundColor: bgColor, color: textColor}}>
-										Sample
+										Preview
 									</Paper>
 								</Typography>
 							</Grid>
