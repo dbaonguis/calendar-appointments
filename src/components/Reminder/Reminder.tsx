@@ -111,7 +111,7 @@ const Reminder = (props: Props) => {
             <CardActionArea onClick={(evt) => {
               evt.stopPropagation();
             
-              //alert('hoy tarantado!');
+              //alert('hey!');
             }}>
               3+ reminders, click for details.
             </CardActionArea>
@@ -124,7 +124,7 @@ const Reminder = (props: Props) => {
             <CardActionArea onClick={(evt) => {
               evt.stopPropagation();
             
-              // alert('hoy tarantado!');
+              // alert('ey!');
             }}>
               {reminder.message}
             </CardActionArea>

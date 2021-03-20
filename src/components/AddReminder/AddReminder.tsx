@@ -14,6 +14,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { addMinutes, format as dateFormat } from 'date-fns';
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
 import { WithStyles, withStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { TwitterPicker, GithubPicker } from 'react-color';
 
 const styles = (theme: Theme) => createStyles({
 	addReminderFormContainer: {
@@ -27,11 +28,26 @@ const styles = (theme: Theme) => createStyles({
 		right: '10px',
 		top: '10px'
 	},
-	textField: {
+	messageTextField: {
 		marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: 200,
-	}
+    width: 'auto',
+	},
+	colorTextField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+		width: '150px'
+  },
+	dateTextField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+		width: '180px'
+  },
+	timeTextField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+		width: '150px'
+  },
 });
 
 interface Props extends WithStyles<typeof styles>{
@@ -46,11 +62,15 @@ const AddReminder = (props: Props) => {
 
 	const [message, setMessage] = useState<string>('');
 	const [dateTime, setDateTime] = useState<Date>(new Date());
+	// const [textColor, setTextColor] = useState<string>('#000000');
+	const [bgColor, setBgColor] = useState<string>('#FFFFFF');
 
 	const onSaveHandler = () => {
 		onCreateReminderRequest();
 		onCreateReminderSuccess({
 			id: uuidv4(),
+			date: dateFormat(dateTime, 'yyyy-MM-dd'),
+			time: dateFormat(dateTime, 'hh:mmb'),
 			dateTime,
       message,
       color: '#FFFFFF',
@@ -83,49 +103,66 @@ const AddReminder = (props: Props) => {
          	multiline
          	rows='3'
          	margin='normal'
-					className={classes.textField}
+					className={classes.messageTextField}
 					variant='filled'
 					value={message}
 					onChange={(evt) => {
 						setMessage(evt.target.value);
 					}}
        	/>
-				<MuiPickersUtilsProvider utils={DateFnsUtils}>
-       		<Grid container justify="space-around">
-         		<DatePicker
+				<Grid container justify='space-between'>
+					<Grid item>
+						<TextField
+							label="Background Color"
+							className={classes.colorTextField}
+							value={'test'}
+							onChange={() => {}}
 							margin="normal"
-           		label="Date picker"
-							value={dateTime}
-							onChange={(date) => {
-								setDateTime(date);
-							}}
-							variant='filled'
-         		/>
-         		<TimePicker
-           		margin="normal"
-           		label="Time picker"
-							value={dateTime}
-							ampm={true}
-							onChange={(date) => {
-								setDateTime(date);
-							}}
-							variant='filled'
-							minutesStep={5}
-							onClickCapture={(evt) => {
-								// addjust the time forward
-								let tempDate = addMinutes(dateTime, 10);
-								let tempMinute = tempDate.getMinutes() % 5;
-								tempMinute = tempMinute > 0 ? 5 - tempMinute : 0;
-								tempDate = addMinutes(tempDate, tempMinute);
-								setDateTime(tempDate);
-							}}
-							onDismiss={() => {
-								// reset the time
-								setDateTime(new Date());
-							}}
-         		/>
-       		</Grid>
-				</MuiPickersUtilsProvider>
+							variant="filled"
+						/>
+					</Grid>
+					<MuiPickersUtilsProvider utils={DateFnsUtils}>
+						<Grid item>
+							<DatePicker
+								margin="normal"
+								label="Date"
+								value={dateTime}
+								onChange={(date) => {
+									setDateTime(date);
+								}}
+								variant='filled'
+								className={classes.dateTextField}
+							/>
+						</Grid>
+						<Grid item>
+							<TimePicker
+								margin="normal"
+								label="Time"
+								value={dateTime}
+								ampm={true}
+								onChange={(date) => {
+									setDateTime(date);
+								}}
+								className={classes.timeTextField}
+								variant='filled'
+								minutesStep={5}
+								onClickCapture={(evt) => {
+									// addjust the time forward
+									let tempDate = addMinutes(dateTime, 10);
+									let tempMinute = tempDate.getMinutes() % 5;
+									tempMinute = tempMinute > 0 ? 5 - tempMinute : 0;
+									tempDate = addMinutes(tempDate, tempMinute);
+									setDateTime(tempDate);
+								}}
+								onDismiss={() => {
+									// reset the time
+									setDateTime(new Date());
+								}}
+							/>
+						</Grid>
+					</MuiPickersUtilsProvider>
+       	</Grid>
+				<GithubPicker />
 				<Button onClick={onSaveHandler}>Save</Button>
 			</DialogContent>
 		</Dialog>
