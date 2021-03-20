@@ -201,6 +201,11 @@ const AddReminder = (props: Props) => {
 								</Typography>
 							</Grid>
 						</Grid>
+						<Grid container>
+							<Grid item>
+								{isColorPicker && <GithubPicker onChangeComplete={onColorChangeCompleteHandler} /> }
+							</Grid>
+						</Grid>
 					</Grid>
 					<MuiPickersUtilsProvider utils={DateFnsUtils}>
 						<Grid item>
@@ -249,7 +254,6 @@ const AddReminder = (props: Props) => {
 						</Grid>
 					</MuiPickersUtilsProvider>
        	</Grid>
-				{isColorPicker && <GithubPicker onChangeComplete={onColorChangeCompleteHandler} /> }
 				<Button variant='contained' color='primary' className={classes.saveButton} onClick={onSaveHandler} onFocus={() => {
 					hideColorPicker();
 				}}>Save</Button>
