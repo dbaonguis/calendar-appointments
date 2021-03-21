@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import AgendaDay from './AgendaDay';
-import { closeAgenda } from '../../redux/actions';
+import { closeAgenda, viewReminderReset } from '../../redux/actions';
 
 interface Props {}
 
@@ -21,6 +21,7 @@ const mapDispatchToProps = (dispatch: any) => {
 	return {
 		onClose: () => {
 			dispatch( closeAgenda() );
+			dispatch( viewReminderReset() );
 		}
 	}
 }

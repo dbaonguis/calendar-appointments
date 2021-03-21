@@ -7,8 +7,8 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography'
 import { WithStyles, withStyles, Theme, createStyles } from '@material-ui/core/styles';
-
 import * as dateFns from 'date-fns';
+import ReminderPanelContainer from './../Reminder/ReminderPanelContainer';
 
 const styles = (theme: Theme) => createStyles({
 	remindersContainer: {
@@ -40,13 +40,16 @@ const AgendaDay = (props: Props) => {
 	const { classes, agendaStatus, onClose } = props;
 	const dateTitle = agendaStatus.date ? dateFns.format( agendaStatus.date, 'LLLL do, yyyy' ) : 'Closing'
 
+	console.log(agendaStatus.date);
+
+
 	return (
 		<Dialog
 			open={ agendaStatus.isOpen }
 			onClose={ onClose }
 			aria-labelledby='form-dialog-title'
 			fullWidth={ true }
-			maxWidth='md'
+			maxWidth='sm'
 		>
 			<DialogTitle id='form-dialog-title'>
 				{ dateTitle }
@@ -57,8 +60,10 @@ const AgendaDay = (props: Props) => {
 			<Divider light />
 			<DialogContent className={ classes.remindersContainer }>
 				<Typography>
-					Use this space to list the reminders.
+					No agenda/reminders for this day.
 				</Typography>
+
+				<ReminderPanelContainer reminderObj />
 			</DialogContent>
 		</Dialog>
 	);
