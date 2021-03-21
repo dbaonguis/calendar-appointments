@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import { green, red } from '@material-ui/core/colors';
 import DateFnsUtils from '@date-io/date-fns';
 import { v4 as uuidv4 } from 'uuid';
 import { addMinutes, format as dateFormat } from 'date-fns';
@@ -19,6 +20,9 @@ import { GithubPicker } from 'react-color';
 import { contrastColors, Color } from './../../utils/colors';
 
 const styles = (theme: Theme) => createStyles({
+	palette: {
+		primary: 'green'
+	},
 	addReminderFormContainer: {
 		minHeight: '320px',
 		height: '320px',
@@ -58,12 +62,17 @@ const styles = (theme: Theme) => createStyles({
 		display: 'flex',
 		justifyContent: 'center',
   	alignItems: 'center',
-		backgroundColor: 'red',
+		backgroundColor: red[600],
 		color: 'white'
 	},
 	saveButton: {
 		margin: theme.spacing.unit,
-		marginTop: 'auto'
+		marginTop: 'auto',
+		backgroundColor: green[600],
+		color: '#FFF',
+		'&:hover': {
+			backgroundColor: green[800]
+		}
 	},
 	errorMessage: {
 		marginLeft: theme.spacing.unit,
@@ -92,6 +101,7 @@ const AddReminder = (props: Props) => {
 	useEffect(() => {
 		if (isOpen) {
 			resetForm();
+
 		}
 	}, [isOpen]);
 
@@ -254,7 +264,7 @@ const AddReminder = (props: Props) => {
 						</Grid>
 					</MuiPickersUtilsProvider>
        	</Grid>
-				<Button variant='contained' color='primary' className={classes.saveButton} onClick={onSaveHandler} onFocus={() => {
+				<Button variant='contained' className={classes.saveButton} onClick={onSaveHandler} onFocus={() => {
 					hideColorPicker();
 				}}>Save</Button>
 			</DialogContent>

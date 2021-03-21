@@ -98,7 +98,7 @@ const Reminder = (props: Props) => {
   ];
 
 
-  console.log(sampleData);
+  // console.log(sampleData);
 
   // 12, 6, 4
   const colSpan = sampleData.length > 3 ? 12 as GridSize : (12 / sampleData.length) as GridSize;
