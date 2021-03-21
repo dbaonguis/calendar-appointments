@@ -102,6 +102,12 @@ const AddReminder = (props: Props) => {
 		if (isOpen) {
 			resetForm();
 
+			// adjust the time forward by a few minutes
+			let tempDate = addMinutes(new Date(), 10);
+			let tempMinute = tempDate.getMinutes() % 5;
+			tempMinute = tempMinute > 0 ? 5 - tempMinute : 0;
+			tempDate = addMinutes(tempDate, tempMinute);
+			setDateTime(tempDate);
 		}
 	}, [isOpen]);
 
@@ -116,7 +122,7 @@ const AddReminder = (props: Props) => {
 		onCreateReminderSuccess({
 			id: uuidv4(),
 			date: dateFormat(dateTime, 'yyyy-MM-dd'),
-			time: dateFormat(dateTime, 'hh:mmb'),
+			time: dateFormat(dateTime, 'b_hh:mm'),
 			dateTime,
       message,
       color: {
@@ -245,14 +251,6 @@ const AddReminder = (props: Props) => {
 								className={classes.timeTextField}
 								variant='filled'
 								minutesStep={5}
-								onClickCapture={(evt) => {
-									// addjust the time forward
-									let tempDate = addMinutes(dateTime, 10);
-									let tempMinute = tempDate.getMinutes() % 5;
-									tempMinute = tempMinute > 0 ? 5 - tempMinute : 0;
-									tempDate = addMinutes(tempDate, tempMinute);
-									setDateTime(tempDate);
-								}}
 								onDismiss={() => {
 									// reset the time
 									setDateTime(new Date());

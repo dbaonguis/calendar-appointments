@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { format as dateFormat } from 'date-fns';
 import deepPurple from '@material-ui/core/colors/deepPurple';
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { Color } from './../../utils/colors';
 
 const styles = (theme: Theme) => createStyles({
 	dayCell: {
@@ -59,12 +60,24 @@ const styles = (theme: Theme) => createStyles({
 	}
 });
 
-interface Props {
-	date: Date;
+export interface ReminderProp {
+  id: string;
+  date: string;
   time: string;
+  dateTime: Date;
+  message: string;
+  color: Color;
+}
+
+interface Props {
+  // reminder: ReminderProp;
+  time: string;
+  date: string;
 }
 
 const Reminder = (props: Props) => {
+
+  // props.reminder
 
   const sampleData = [
     {
