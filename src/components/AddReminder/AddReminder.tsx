@@ -122,7 +122,7 @@ const AddReminder = (props: Props) => {
 		onCreateReminderSuccess({
 			id: uuidv4(),
 			date: dateFormat(dateTime, 'yyyy-MM-dd'),
-			time: dateFormat(dateTime, 'b_hh:mm'),
+			time: dateFormat(dateTime, 'a_hh:mm'),
 			dateTime,
       message,
       color: {

@@ -70,55 +70,25 @@ export interface ReminderProp {
 }
 
 interface Props {
-  // reminder: ReminderProp;
-  time: string;
-  date: string;
+  reminderObj: any;
 }
 
 const Reminder = (props: Props) => {
 
-  // props.reminder
+  const { reminderObj } = props;
 
-  const sampleData = [
-    {
-      id: uuidv4(),
-      date: dateFormat(new Date('1/2/2000'), 'yyyy-MM-dd'),
-      time: '2:00pm',
-      message: 'Reminder #1',
-      color: '#FFFFFF',
-    },
-    {
-      id: uuidv4(),
-      date: dateFormat(new Date(), 'yyyy-MM-dd'),
-      time: '2:00pm',
-      message: 'Reminder #2',
-      color: '#FFF000',
-    },
-    {
-      id: uuidv4(),
-      date: dateFormat(new Date(), 'yyyy-MM-dd'),
-      time: '2:00pm',
-      message: 'Reminder #3',
-      color: '#F3F4FG',
-    },
-    {
-      id: uuidv4(),
-      date: dateFormat(new Date(), 'yyyy-MM-dd'),
-      time: '2:00pm',
-      message: 'Reminder #4',
-      color: '#FFF000',
-    },
-  ];
+  const rawTime = Object.keys(reminderObj)[0];
+  let formattedTime = rawTime.split('_')[1];
+  formattedTime = `${formattedTime} ${rawTime.split('_')[0]}`;
 
-
-  // console.log(sampleData);
-
+  const remindersPerTime = reminderObj[rawTime];
+    
   // 12, 6, 4
-  const colSpan = sampleData.length > 3 ? 12 as GridSize : (12 / sampleData.length) as GridSize;
+  const colSpan = remindersPerTime.length > 3 ? 12 as GridSize : (12 / remindersPerTime.length) as GridSize;
   
   return (
     <Grid container spacing={0}>
-      {sampleData.length > 3 && (
+      {remindersPerTime.length > 3 && (
         <Grid item xs={12}>
           <Card>
             <CardActionArea onClick={(evt) => {
@@ -131,7 +101,7 @@ const Reminder = (props: Props) => {
           </Card>
         </Grid>
       )}
-      {sampleData.length <= 3 && sampleData.map((reminder) => (
+      {remindersPerTime.length <= 3 && remindersPerTime.map((reminder: ReminderProp) => (
         <Grid item xs={colSpan}>
           <Card>
             <CardActionArea onClick={(evt) => {
