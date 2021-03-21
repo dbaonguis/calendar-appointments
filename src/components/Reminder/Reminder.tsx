@@ -31,6 +31,7 @@ const Reminder = (props: Props) => {
   const rawTime = Object.keys(reminderObj)[0];
   let formattedTime = rawTime.split('_')[1];
   formattedTime = `${formattedTime} ${rawTime.split('_')[0]}`;
+  formattedTime = formattedTime.startsWith('0') ? formattedTime.substring(1, formattedTime.length) : formattedTime;
 
   const remindersPerTime = reminderObj[rawTime];
     
