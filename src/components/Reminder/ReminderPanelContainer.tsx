@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import ReminderPanel from './ReminderPanel';
 
 interface Props {
-  reminderObj: any;
+  
 }
 
 interface State {

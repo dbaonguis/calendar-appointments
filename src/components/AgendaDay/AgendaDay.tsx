@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography'
 import { WithStyles, withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import * as dateFns from 'date-fns';
 import ReminderPanelContainer from './../Reminder/ReminderPanelContainer';
+import { ReminderProp } from './../Reminder/Reminder';
 
 const styles = (theme: Theme) => createStyles({
 	remindersContainer: {
@@ -32,16 +33,27 @@ interface Props extends WithStyles<typeof styles>{
 	agendaStatus: {
 		isOpen: boolean,
 		date: Date
-	}
-	onClose: () => void
+	};
+	viewReminder: {
+		id: string,
+		time: string,
+	};
+	reminderList: ReminderProp[];
+	onClose: () => void;
 }
 
 const AgendaDay = (props: Props) => {
-	const { classes, agendaStatus, onClose } = props;
+	const { classes, agendaStatus, viewReminder, reminderList, onClose } = props;
 	const dateTitle = agendaStatus.date ? dateFns.format( agendaStatus.date, 'LLLL do, yyyy' ) : 'Closing'
 
-	console.log(agendaStatus.date);
+	const dateFound = reminderList.length > 0 && reminderList.some((reminder: ReminderProp) => {
+		if (agendaStatus.date) {
+			return reminder.date === dateFns.format(agendaStatus.date, 'yyyy-MM-dd')
+		}
+		return false;
+	});
 
+	const emptyReminder = !viewReminder.id && !viewReminder.time && !dateFound;
 
 	return (
 		<Dialog
@@ -59,11 +71,13 @@ const AgendaDay = (props: Props) => {
 			</DialogTitle>
 			<Divider light />
 			<DialogContent className={ classes.remindersContainer }>
-				<Typography>
-					No agenda/reminders for this day.
-				</Typography>
-
-				<ReminderPanelContainer reminderObj />
+				{emptyReminder ? (
+					<Typography>
+						No agenda/reminders for this day.
+					</Typography>
+				) : (
+					<ReminderPanelContainer />
+				)}
 			</DialogContent>
 		</Dialog>
 	);

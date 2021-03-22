@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Avatar, Button, Grid, Paper, Card, ButtonBase, CardActionArea, CardContent } from '@material-ui/core';
+import { Avatar, Grid } from '@material-ui/core';
 import deepPurple from '@material-ui/core/colors/deepPurple';
 import { WithStyles, withStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { isSameMonth, isSameDay, getDate, format as formatDate } from 'date-fns';
-import { ReminderProp } from './../Reminder/Reminder';
+import { isSameMonth, isSameDay, getDate } from 'date-fns';
 import ReminderContainer from './../Reminder/ReminderContainer';
 import { organizeReminderList } from './../../utils/reminder';
 

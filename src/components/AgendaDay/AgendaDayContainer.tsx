@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import AgendaDay from './AgendaDay';
 import { closeAgenda, viewReminderReset } from '../../redux/actions';
+import { ReminderProp } from './../Reminder/Reminder';
 
 interface Props {}
 
@@ -8,13 +9,18 @@ interface State {
 	agendaStatus: {
 		isOpen: boolean,
 		date: Date
-	}
+	},
+	viewReminder: {
+		id: string,
+		time: string,
+	},
+	reminderList: ReminderProp[]
 }
 
 const mapStateToProps = ( state: State, ownProps: Props ) => {
-	const { agendaStatus } = state;
+	const { agendaStatus, viewReminder, reminderList } = state;
 
-	return { agendaStatus };
+	return { agendaStatus, viewReminder, reminderList };
 }
 
 const mapDispatchToProps = (dispatch: any) => {
