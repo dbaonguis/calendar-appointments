@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardActionArea, Typography } from '@material-ui/core';
+import { Card, CardActionArea, Typography, Tooltip } from '@material-ui/core';
 import Grid, { GridSize } from '@material-ui/core/Grid';
 import { WithStyles, withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Color } from './../../utils/colors';
@@ -51,7 +51,6 @@ const Reminder = (props: Props) => {
           <Card className={classes.card}>
             <CardActionArea onClick={(evt) => {
               evt.stopPropagation();
-
               onReminderClick({ 
                 time: rawTime,
                 dateObj: { date: remindersPerTime[0].dateTime }
@@ -75,9 +74,13 @@ const Reminder = (props: Props) => {
                 dateObj: { date: reminder.dateTime }
               });
             }}>
-              <Typography noWrap={true} style={{color: reminder.color.text}}>
-                {`[${formattedTime}] ${reminder.message}`}
-              </Typography>
+              <Tooltip title={
+                <Typography color='inherit' variant='body1'>{`[${formattedTime}] ${reminder.message}`}</Typography>
+              } placement='top-start'>
+                <Typography noWrap={true} style={{color: reminder.color.text}}>
+                  {`[${formattedTime}] ${reminder.message}`}
+                </Typography>
+              </Tooltip>
             </CardActionArea>
           </Card>
         </Grid>
