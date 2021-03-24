@@ -67,8 +67,8 @@ class App extends Component<Props, State> {
 		};
 	}
 
-	compnentDidMount() {
-
+	componentDidMount() {
+		
 	}
 
 	// arrow functions to skip binding in constructor

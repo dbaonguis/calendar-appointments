@@ -97,11 +97,11 @@ function viewReminder(state = initialViewReminder, action: any ) {
 	}
 }
 
-const calendarApp = combineReducers( {
+const calendarAppReducer = combineReducers( {
 	agendaStatus,
 	addReminderStatus,
 	reminderList,
 	viewReminder,
 } )
 
-export default calendarApp;
+export default calendarAppReducer;
